@@ -1,6 +1,7 @@
 use async_trait::async_trait;
 use hmac::digest::InvalidLength;
 use hmac::{Hmac, Mac};
+use reqwest::Proxy;
 use sha2::Sha256;
 
 pub mod v3;
@@ -78,6 +79,15 @@ pub struct MexcSpotApiClientWithAuthentication {
     secret_key: String,
 }
 
+#[derive(Clone)]
+pub struct MexcSpotApiClientConfig {
+    endpoint: MexcSpotApiEndpoint,
+    api_key: String,
+    secret_key: String,
+    proxy: Option<String>,
+    broker_id: Option<String>,
+}
+
 impl MexcSpotApiClientWithAuthentication {
     pub fn new(endpoint: MexcSpotApiEndpoint, api_key: String, secret_key: String) -> Self {
         let mut headers = reqwest::header::HeaderMap::new();
@@ -95,6 +105,36 @@ impl MexcSpotApiClientWithAuthentication {
             _api_key: api_key,
             secret_key,
         }
+    }
+    
+    pub fn new_with_config(
+        config: MexcSpotApiClientConfig,
+    ) -> Result<Self, MexcSpotApiClientError> {
+        let mut headers = reqwest::header::HeaderMap::new();
+        headers.insert(
+            "X-MEXC-APIKEY",
+            config.api_key.parse().expect("Failed to parse api key"),
+        );
+        let mut builder = reqwest::Client::builder();
+        if let Some(proxy) = config.proxy {
+            builder = builder.proxy(Proxy::all(proxy)?);
+        }
+        if let Some(broker_id) = config.broker_id {
+            headers.insert(
+                "source",
+                broker_id.parse().expect("Failed to parse broker id"),
+            );
+        }
+        let reqwest_client = builder
+            .default_headers(headers)
+            .build()
+            .expect("Failed to build reqwest client");
+        Ok(Self {
+            endpoint: config.endpoint,
+            reqwest_client,
+            _api_key: config.api_key,
+            secret_key: config.secret_key,
+        })
     }
 
     fn sign_query<T>(&self, query: T) -> Result<QueryWithSignature<T>, SignQueryError>
@@ -151,4 +191,10 @@ pub enum SignQueryError {
 
     #[error("Secret key invalid length")]
     SecretKeyInvalidLength(#[from] InvalidLength),
+}
+
+#[derive(Debug, thiserror::Error)]
+pub enum MexcSpotApiClientError {
+    #[error("Failed to parse proxy: {0}")]
+    ParseProxyError(#[from] reqwest::Error),
 }
