@@ -81,11 +81,11 @@ pub struct MexcSpotApiClientWithAuthentication {
 
 #[derive(Clone)]
 pub struct MexcSpotApiClientConfig {
-    endpoint: MexcSpotApiEndpoint,
-    api_key: String,
-    secret_key: String,
-    proxy: Option<String>,
-    broker_id: Option<String>,
+    pub endpoint: MexcSpotApiEndpoint,
+    pub api_key: String,
+    pub secret_key: String,
+    pub proxy: Option<String>,
+    pub broker_id: Option<String>,
 }
 
 impl MexcSpotApiClientWithAuthentication {
@@ -106,7 +106,7 @@ impl MexcSpotApiClientWithAuthentication {
             secret_key,
         }
     }
-    
+
     pub fn new_with_config(
         config: MexcSpotApiClientConfig,
     ) -> Result<Self, MexcSpotApiClientError> {
