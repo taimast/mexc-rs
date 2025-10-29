@@ -22,13 +22,13 @@ pub struct KlinesParams<'a> {
     pub limit: Option<u32>,
 }
 
-#[derive(Debug, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct KlinesOutput {
     pub klines: Vec<Kline>,
 }
 
-#[derive(Debug, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Kline {
     #[serde(with = "chrono::serde::ts_seconds")]

@@ -22,6 +22,7 @@ pub mod ping;
 pub mod query_order;
 pub mod time;
 pub mod trades;
+pub mod symbol_price_ticker;
 
 pub type ApiResult<T> = Result<T, ApiError>;
 

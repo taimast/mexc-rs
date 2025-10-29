@@ -12,13 +12,13 @@ pub struct DepthParams<'a> {
     pub limit: Option<u32>,
 }
 
-#[derive(Debug, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Deserialize)]
 pub struct PriceAndQuantity {
     pub price: Decimal,
     pub quantity: Decimal,
 }
 
-#[derive(Debug, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DepthOutput {
     pub last_update_id: u64,

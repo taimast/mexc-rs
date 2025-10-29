@@ -9,7 +9,7 @@ pub struct CreateUserDataStreamQuery {
     timestamp: DateTime<Utc>,
 }
 
-#[derive(Debug, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CreateUserDataStreamOutput {
     pub listen_key: String,
