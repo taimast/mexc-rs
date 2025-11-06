@@ -2,7 +2,7 @@ use crate::spot::v3::enums::{OrderSide, OrderStatus, OrderType};
 use chrono::{DateTime, Utc};
 use rust_decimal::Decimal;
 
-#[derive(Debug, Clone, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Order {
     pub symbol: String,

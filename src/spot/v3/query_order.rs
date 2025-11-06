@@ -38,7 +38,7 @@ impl<'a> From<QueryOrderParams<'a>> for QueryOrderQuery<'a> {
     }
 }
 
-#[derive(Debug, Clone, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct QueryOrderOutput {
     pub symbol: String,

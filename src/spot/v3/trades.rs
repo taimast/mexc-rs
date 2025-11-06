@@ -12,12 +12,12 @@ pub struct TradesParams<'a> {
     pub limit: Option<u32>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize)]
 pub struct TradesOutput {
     pub trades: Vec<Trade>,
 }
 
-#[derive(Debug, Clone, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Trade {
     /// Currently always filled with null

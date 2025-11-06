@@ -10,7 +10,7 @@ pub struct SymbolPriceTickerParams<'a> {
     pub symbol: Option<&'a str>,
 }
 
-#[derive(Debug, Clone, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SymbolPriceTicker {
     pub symbol: String,

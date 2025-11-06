@@ -54,7 +54,7 @@ impl<'a> From<OrderParams<'a>> for OrderQuery<'a> {
     }
 }
 
-#[derive(Debug, Clone, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct OrderOutput {
     pub symbol: String,
